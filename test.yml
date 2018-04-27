@@ -1,0 +1,19 @@
+# file: test.yml
+---
+- hosts: localhost
+  become: yes
+  roles:
+    # - wangwg2.config
+    # - wangwg2.hosts
+    - wangwg2.dev
+    # - wangwg2.jdk
+    # - wangwg2.maven
+    # - wangwg2.gradle
+    # - wangwg2.docker
+    # - wangwg2.k8sadm
+    # - wangwg2.nodejs
+
+## install kafka + zookeeper
+# - import_playbook: pbk_zkkafka.yml
+
+

@@ -22,12 +22,23 @@
 - name: install | Ensure gcc packages are installed.
   yum:
     name: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - gcc
     - gcc-c++
     - libtool
     - make
+  when: ansible_distribution in ["RedHat", "CentOS" ]
+
+- name: install | Ensure gcc packages are installed.
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - libtool
+    - make
+  when: ansible_distribution in [ "Debian", "Ubuntu" ]
 
 - name: install | Copy redis file to agent.
   unarchive:

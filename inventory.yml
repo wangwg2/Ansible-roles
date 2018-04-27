@@ -1,0 +1,57 @@
+## file: inventory.yml
+##-----------------------------------------------------------------------
+#### hosts list
+# localhost ansible_host=127.0.0.1
+localhost ansible_host=127.0.0.1 ansible_connection=local
+
+## vbox
+[nodes]
+work      ansible_host=192.168.99.23
+develop   ansible_host=192.168.99.50
+ubuntu    ansible_host=192.168.99.51
+provision ansible_host=192.168.99.21
+centos    ansible_host=192.168.99.22
+test      ansible_host=192.168.99.30
+
+## test-cluster
+test01  ansible_host=192.168.99.31
+test02  ansible_host=192.168.99.32
+test03  ansible_host=192.168.99.33
+
+[nodes:vars]
+ansible_user=vagrant
+
+##-----------------------------------------------------------------------
+## 本地服务器
+[local]
+localhost
+
+## 管理节点
+[master]
+localhost
+
+## 托管节点
+[nodesdd]
+ubuntu
+develop
+
+## tests
+[tests]
+test01  ansible_host=192.168.99.31
+test02  ansible_host=192.168.99.32
+test03  ansible_host=192.168.99.33
+
+[tests:vars]
+ansible_connection=ssh
+ansible_user=vagrant
+
+## zookerper (localhost)
+[zknodes]
+localhost zookeeper_id=1
+
+## kafka (localhost)
+[kafkanodes]
+localhost kafka_broker_id1=11 kafka_port1=9092 kafka_broker_id2=12 kafka_port2=9093 kafka_broker_id3=13 kafka_port3=9094
+
+[all:vars]
+ansible_user=vagrant
