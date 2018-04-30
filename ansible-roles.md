@@ -1,10 +1,5 @@
 # **Ansible roles 怎么用？**
 
-```yaml
-app_base_path: /opt
-dlserver: http://192.168.99.23:8080
-```
-
 # 系统环境
 os:  `Centos 6.7 X64`
 

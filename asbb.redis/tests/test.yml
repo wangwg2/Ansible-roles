@@ -1,0 +1,7 @@
+# file: test.yml
+---
+- hosts: zknodes
+  become: yes
+  roles:
+    - zookeeper
+    # - {role: "zookeeper", zookeeper_purge: yes}

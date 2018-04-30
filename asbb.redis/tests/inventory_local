@@ -1,0 +1,9 @@
+# file: inventory_local
+localhost ansible_host=127.0.0.1 ansible_connection=local
+work      ansible_host=192.168.99.23
+ubuntu    ansible_host=192.168.99.51
+centos    ansible_host=192.168.99.22
+test      ansible_host=192.168.99.30
+
+[node]
+work

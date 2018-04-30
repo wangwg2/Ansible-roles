@@ -1,0 +1,9 @@
+# file: inventory
+[zknodes]
+test01 ansible_host=192.168.99.31 zookeeper_id=1
+test02 ansible_host=192.168.99.32 zookeeper_id=2
+test03 ansible_host=192.168.99.33 zookeeper_id=3
+
+[zknodes:vars]
+ansible_connection=ssh
+ansible_user=vagrant
