@@ -1,27 +1,22 @@
-# file: inventory_tests.yml (zookeeper/kafka cluster)
+# file: inventory_tests (zookeeper/kafka cluster)
 ##-----------------------------------------------------
 #### hosts list
-# localhost ansible_host=127.0.0.1
 localhost ansible_host=127.0.0.1 ansible_connection=local
 
 ## vbox
-work      ansible_host=192.168.99.23
-develop   ansible_host=192.168.99.50
+test      ansible_host=192.168.99.30
+centos    ansible_host=192.168.99.22
 ubuntu    ansible_host=192.168.99.51
 provision ansible_host=192.168.99.21
-
-test    ansible_host=192.168.99.30
-
-## 本地服务器
-[local]
-localhost
+work      ansible_host=192.168.99.23
+develop   ansible_host=192.168.99.50
 
 ## 管理节点
 [master]
 localhost
 
 ## 托管节点
-[nodesdd]
+[nodes]
 ubuntu
 develop
 
@@ -44,3 +39,14 @@ test03 zookeeper_id=3
 test01 kafka_broker_id1=11 kafka_port1=9091 kafka_broker_id2=12 kafka_port2=9092
 test02 kafka_broker_id1=13 kafka_port1=9091 kafka_broker_id2=14 kafka_port2=9092
 test03 kafka_broker_id1=15 kafka_port1=9091 kafka_broker_id2=16 kafka_port2=9092
+
+## redis
+[redis-master]
+test
+[redis-slave]
+test0[1:3]
+[redis-sentinel]
+test
+
+[all:vars]
+ansible_user=vagrant

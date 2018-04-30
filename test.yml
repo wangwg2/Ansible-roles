@@ -3,17 +3,28 @@
 - hosts: localhost
   become: yes
   roles:
-    # - wangwg2.config
-    # - wangwg2.hosts
-    - wangwg2.dev
-    # - wangwg2.jdk
-    # - wangwg2.maven
-    # - wangwg2.gradle
-    # - wangwg2.docker
-    # - wangwg2.k8sadm
-    # - wangwg2.nodejs
+    # - config
+    # - hosts
+    - dev
+    # - jdk
+    # - maven
+    # - gradle
+    # - docker
+    # - k8sadm
+    # - nodejs
+
+- hosts: localhost
+  become: yes
+  vars:
+    - redis_cluster: true
+    - redis_requirepass: '123456'
+  roles:
+    - { role: redis, redis_port: 6481}
+    - { role: redis, redis_port: 6482}
+    - { role: redis, redis_port: 6483}
+    - { role: redis, redis_port: 6484}
+    - { role: redis, redis_port: 6485}
+    - { role: redis, redis_port: 6486, redis_cluster_replicas: '1 127.0.0.1:6481 127.0.0.1:6482 127.0.0.1:6483 127.0.0.1:6484 127.0.0.1:6485 127.0.0.1:6486'}
 
 ## install kafka + zookeeper
 # - import_playbook: pbk_zkkafka.yml
-
-

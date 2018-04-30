@@ -1,0 +1,17 @@
+archives
+dlserver
+# sshca_hosts
+# sshca_hosts.yml
+vagrant.pem
+ansible.log
+*.pdf
+*.retry
+
+/test.yml
+/t.yml
+
+# ignore .vagrant
+.vagrant
+
+#.gitignore
+*~
