@@ -3,22 +3,15 @@
 #### hosts list
 localhost ansible_host=127.0.0.1 ansible_connection=local
 
-## vbox
-[nodes]
-work      ansible_host=192.168.99.23
-develop   ansible_host=192.168.99.50
-ubuntu    ansible_host=192.168.99.51
-provision ansible_host=192.168.99.21
-centos    ansible_host=192.168.99.22
-test      ansible_host=192.168.99.30
+work      ansible_host=192.168.99.23 ansible_user=vagrant 
+ubuntu    ansible_host=192.168.99.51 ansible_user=vagrant
+centos    ansible_host=192.168.99.22 ansible_user=vagrant
+test      ansible_host=192.168.99.30 ansible_user=vagrant
 
 ## test-cluster
-test01  ansible_host=192.168.99.31
-test02  ansible_host=192.168.99.32
-test03  ansible_host=192.168.99.33
-
-[nodes:vars]
-ansible_user=vagrant
+test01  ansible_host=192.168.99.31 ansible_user=vagrant
+test02  ansible_host=192.168.99.32 ansible_user=vagrant
+test03  ansible_host=192.168.99.33 ansible_user=vagrant
 
 ##-----------------------------------------------------------------------
 ## 本地服务器

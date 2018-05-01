@@ -2,12 +2,13 @@
 ---
 software_files_path: "/opt/software"
 software_install_path: "/usr/local"
-dlserver: http://192.168.99.23:8080
+dlserver: "http://192.168.99.23:8080"
+redis_url: "http://download.redis.io/releases"
 redis_version: "4.0.9"
 
 redis_file: "redis-{{ redis_version }}.tar.gz"
 redis_file_path: "{{ software_files_path }}/{{ redis_file }}"
-# redis_file_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
+# redis_file_url: "{{ redis_url }}/redis-{{ redis_version }}.tar.gz"
 redis_file_url: "{{dlserver}}/redis-{{ redis_version }}.tar.gz"
 
 redis_data_path: "/redis_data"

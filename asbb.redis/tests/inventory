@@ -1,9 +1,7 @@
 # file: inventory
-[zknodes]
-test01 ansible_host=192.168.99.31 zookeeper_id=1
-test02 ansible_host=192.168.99.32 zookeeper_id=2
-test03 ansible_host=192.168.99.33 zookeeper_id=3
+localhost ansible_host=127.0.0.1 ansible_connection=local
 
-[zknodes:vars]
-ansible_connection=ssh
-ansible_user=vagrant
+work      ansible_host=192.168.99.23 ansible_user=vagrant 
+ubuntu    ansible_host=192.168.99.51 ansible_user=vagrant
+centos    ansible_host=192.168.99.22 ansible_user=vagrant
+test      ansible_host=192.168.99.30 ansible_user=vagrant
