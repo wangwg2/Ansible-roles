@@ -38,14 +38,37 @@
     owner: "{{ redis_user }}"
     group: "{{ redis_user }}"
 
+# ==========================
+# redis_as_service
+- name: create redis systemd service
+  template:
+    src: "redis.service.j2"
+    dest: /etc/systemd/system/{{ redis_daemon }}.service
+    mode: 0644
+  register: redis_unit_file
+  when: redis_as_service and ansible_service_mgr|default() == "systemd"
+
+- name: reload systemd daemon
+  command: systemctl daemon-reload
+  when:
+    - ansible_service_mgr|default() == "systemd"
+    - redis_unit_file is changed
+    - redis_as_service
+# ===========================
+
 - name: configure | Ensure Redis daemon shell is configured.
   template:
     src: redis.sh.j2
     dest: "/etc/rc.d/init.d/{{ redis_daemon }}"
     mode: 0755
+  when: ansible_service_mgr|default() != "systemd"
 
 - name: configure | Add redis services.
   shell: "chkconfig --add {{ redis_daemon }}  && chkconfig {{ redis_daemon }} on"
+  when: ansible_service_mgr|default() != "systemd"
 
 - name: configure | Ensure Redis is running and enabled on boot.
   service: "name={{ redis_daemon }} state=started enabled=yes"
+
+
+

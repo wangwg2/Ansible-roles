@@ -1,10 +1,10 @@
 # file: test.yml
 ---
 ## 单实例安装
-- hosts: centos
+- hosts: work
   become: yes
   roles:
-    - { role: redis }
+    - { role: asbb.redis }
 
 ## 主从配置
 # - hosts: test
