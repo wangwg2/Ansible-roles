@@ -1,0 +1,37 @@
+# file: redis_clean.yml
+---
+- name: stop redis services
+  service:
+    name: "{{item.name}}_{{item.port}}"
+    state: stopped
+    enabled: no
+  with_items: "{{redis_installs}}"
+  ignore_errors: yes
+
+- name: clean /etc/systemd/system/redis_*.service sentinel_*.service
+  file:
+    path: "/etc/systemd/system/{{item.name}}_{{item.port}}.service"
+    state: absent
+  with_items: "{{redis_installs}}"
+
+- name: clean /etc/redis/*
+  file:
+    path: "/etc/redis/{{item.port}}.conf"
+    state: absent
+  with_items: "{{redis_installs}}"
+
+- name: clean /etc/redis/*
+  file:
+    path: "/etc/redis/{{item.name}}_{{item.port}}.conf"
+    state: absent
+  when: item.name == "sentinel"
+  with_items: "{{redis_installs}}"
+
+- name: "clean /etc/default/redis_* sentinel_*"
+  file:
+    path: "/etc/default/{{item.name}}_{{item.port}}"
+    state: absent
+  with_items: "{{redis_installs}}"
+
+- name: reload systemd daemon
+  command: systemctl daemon-reload  

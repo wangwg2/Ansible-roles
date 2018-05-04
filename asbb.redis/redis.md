@@ -11,8 +11,8 @@ redis（Remote Dictionary Server）是一个key-value存储系统。和Memcached
 此角色仅在RHEL及其衍生产品、Ububtu及衍生产品上运行。
 
 ###### 测试环境
-* ansible `2.4.2.0`
-* os `Centos 7.2 X64`
+* ansible `2.5.2`
+* os `Centos 7.0 X64` / `Ubuntu 16.0.4`
 * python `2.7.5`
 
 ###### 角色变量

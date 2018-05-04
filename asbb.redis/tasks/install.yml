@@ -6,17 +6,17 @@
   register: redis_file_result
 
 - name: install | Create software directory.
-  file: path={{ software_files_path }} state=directory
+  file: path={{ archive_path }} state=directory
   connection: local
   when: not redis_file_result.stat.exists
   
 - name: install | Download redis file.
-  get_url: url={{ redis_file_url }} dest={{ software_files_path }}
+  get_url: url={{ redis_file_url }} dest={{ archive_path }}
   connection: local
   when: not redis_file_result.stat.exists
 
 - name: install | Confirm the existence of the installation directory.
-  file: path={{ software_install_path }} state=directory
+  file: path={{ app_base_path }} state=directory
 
 - name: install | Ensure gcc packages are installed.
   yum:
@@ -46,20 +46,20 @@
     creates: "/tmp/redis-{{ redis_version }}"
   
 - name: install | Build redis.
-  shell: "make && make PREFIX=/usr/local/redis-{{ redis_version }} install chdir=/tmp/redis-{{ redis_version }} creates=/usr/local/redis-{{ redis_version }}"
+  shell: "make && make PREFIX={{ app_base_path }}/redis-{{ redis_version }} install chdir=/tmp/redis-{{ redis_version }} creates={{ app_base_path }}/redis-{{ redis_version }}"
  
 - name: install | Check if redis remote soft link is already configured.
-  stat: path="{{ software_install_path }}/redis"
+  stat: path="{{ app_base_path }}/redis"
   register: redis_soft_link_result
 
 - name: install | Create redis dir soft link.
-  file: "src={{ software_install_path }}/redis-{{ redis_version }} dest={{ software_install_path }}/redis state=link"
+  file: "src={{ app_base_path }}/redis-{{ redis_version }} dest={{ app_base_path }}/redis state=link"
   when: not redis_soft_link_result.stat.exists
 
 - name: install | Copy redis-trib.rb to bin path.
-  copy: "src=/tmp/redis-{{ redis_version }}/src/redis-trib.rb dest={{ software_install_path }}/redis-{{ redis_version }}/bin mode=755 remote_src=true"
+  copy: "src=/tmp/redis-{{ redis_version }}/src/redis-trib.rb dest={{ app_base_path }}/redis-{{ redis_version }}/bin mode=755 remote_src=true"
   when: not redis_soft_link_result.stat.exists
 
 - name: install | Config environment variable.
-  lineinfile: dest=/etc/profile line='export PATH={{ software_install_path }}/redis/bin/:$PATH'
+  lineinfile: dest=/etc/profile line='export PATH={{ app_base_path }}/redis/bin/:$PATH'
   run_once: yes

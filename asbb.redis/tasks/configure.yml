@@ -43,7 +43,7 @@
 - name: create redis systemd service
   template:
     src: "redis.service.j2"
-    dest: /etc/systemd/system/{{ redis_daemon }}.service
+    dest: /etc/systemd/system/{{ redis_service }}.service
     mode: 0644
   register: redis_unit_file
   when: redis_as_service and ansible_service_mgr|default() == "systemd"
@@ -54,6 +54,11 @@
     - ansible_service_mgr|default() == "systemd"
     - redis_unit_file is changed
     - redis_as_service
+
+- name: configure | Ensure Redis is running and enabled on boot.
+  service: "name={{ redis_service }} state=started enabled=yes"
+  when: ansible_service_mgr|default() == "systemd"
+
 # ===========================
 
 - name: configure | Ensure Redis daemon shell is configured.
@@ -69,6 +74,5 @@
 
 - name: configure | Ensure Redis is running and enabled on boot.
   service: "name={{ redis_daemon }} state=started enabled=yes"
-
-
-
+  when: ansible_service_mgr|default() != "systemd"
+  

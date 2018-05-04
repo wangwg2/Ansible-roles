@@ -1,0 +1,22 @@
+# file: test_clean.yml
+---
+- hosts: work
+  vars:
+    redis_installs:
+      - { name: 'redis', port: 6481 }
+      - { name: 'redis', port: 6482 }
+      - { name: 'redis', port: 6483 }
+      - { name: 'redis', port: 6484 }
+      - { name: 'redis', port: 6485 }
+      - { name: 'redis', port: 6486 }
+  become: yes
+  tasks:
+    - include_tasks: redis_clean.yml
+# - hosts: ubuntu
+#   vars:
+#     redis_installs:
+#       - { name: 'redis', port: 6379 }
+#       # - { name: 'sentinel', port: 26379 }
+#   become: yes
+#   tasks:
+#     - include_tasks: redis_clean.yml
