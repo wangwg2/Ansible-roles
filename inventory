@@ -14,28 +14,20 @@ test02  ansible_host=192.168.99.32 ansible_user=vagrant
 test03  ansible_host=192.168.99.33 ansible_user=vagrant
 
 ##-----------------------------------------------------------------------
-## 本地服务器
-[local]
-localhost
-
 ## 管理节点
 [master]
 localhost
 
 ## 托管节点
-[nodesdd]
+[nodes]
 ubuntu
 develop
 
 ## tests
 [tests]
-test01  ansible_host=192.168.99.31
-test02  ansible_host=192.168.99.32
-test03  ansible_host=192.168.99.33
-
-[tests:vars]
-ansible_connection=ssh
-ansible_user=vagrant
+test01
+test02
+test03
 
 ## zookerper (localhost)
 [zknodes]

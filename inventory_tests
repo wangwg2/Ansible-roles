@@ -4,12 +4,12 @@
 localhost ansible_host=127.0.0.1 ansible_connection=local
 
 ## vbox
-test      ansible_host=192.168.99.30
-centos    ansible_host=192.168.99.22
-ubuntu    ansible_host=192.168.99.51
-provision ansible_host=192.168.99.21
-work      ansible_host=192.168.99.23
-develop   ansible_host=192.168.99.50
+test      ansible_host=192.168.99.30 ansible_user=vagrant
+centos    ansible_host=192.168.99.22 ansible_user=vagrant
+ubuntu    ansible_host=192.168.99.51 ansible_user=vagrant
+provision ansible_host=192.168.99.21 ansible_user=vagrant
+work      ansible_host=192.168.99.23 ansible_user=vagrant
+develop   ansible_host=192.168.99.50 ansible_user=vagrant
 
 ## 管理节点
 [master]
@@ -25,10 +25,6 @@ develop
 test01  ansible_host=192.168.99.31
 test02  ansible_host=192.168.99.32
 test03  ansible_host=192.168.99.33
-
-[tests:vars]
-ansible_connection=ssh
-ansible_user=vagrant
 
 [zknodes]
 test01 zookeeper_id=1
@@ -47,6 +43,3 @@ test
 test0[1:3]
 [redis-sentinel]
 test
-
-[all:vars]
-ansible_user=vagrant
