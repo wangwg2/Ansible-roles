@@ -1,6 +1,6 @@
 # file: test_clean.yml
 ---
-- hosts: work
+- hosts: ubuntu
   vars:
     redis_installs:
       # - { name: 'redis', port: 6379 }

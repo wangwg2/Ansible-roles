@@ -16,7 +16,7 @@
   lineinfile:
     regexp: '        yes_or_die \"Can I set the above configuration\?\"'
     line: '        #yes_or_die "Can I set the above configuration?"'
-    path: "{{ software_install_path }}/redis-{{ redis_version }}/bin/redis-trib.rb"
+    path: "{{ app_base_path }}/redis/bin/redis-trib.rb"
 
 - name: cluster | Get gem repository path.
   shell: "gem install --help  | grep '\\-\\-install-dir /' | gawk -F ' '  '{print $2}'"
@@ -31,5 +31,5 @@
   when: redis_requirepass != ''
 
 - name: cluster | Create cluster.
-  shell: "{{ software_install_path }}/redis-{{ redis_version }}/bin/redis-trib.rb create --replicas {{ redis_cluster_replicas }}"
+  shell: "{{ app_base_path }}/redis/bin/redis-trib.rb create --replicas {{ redis_cluster_replicas }}"
   when: redis_cluster_replicas !=''
