@@ -1,0 +1,14 @@
+# file: test.yml
+---
+- hosts: work
+  become: yes
+  vars:
+    - redis_cluster: true
+    - redis_requirepass: '123456'
+  roles:
+  - { role: asbb.redis, redis_port: 6481}
+  - { role: asbb.redis, redis_port: 6482}
+  - { role: asbb.redis, redis_port: 6483}
+  - { role: asbb.redis, redis_port: 6484}
+  - { role: asbb.redis, redis_port: 6485}
+  - { role: asbb.redis, redis_port: 6486, redis_cluster_replicas: '1 127.0.0.1:6481 127.0.0.1:6482 127.0.0.1:6483 127.0.0.1:6484 127.0.0.1:6485 127.0.0.1:6486'}
