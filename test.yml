@@ -1,19 +1,6 @@
 # file: test.yml
 ---
-- hosts: localhost
-  become: yes
-  roles:
-    # - config
-    # - hosts
-    - dev
-    # - jdk
-    # - maven
-    # - gradle
-    # - docker
-    # - k8sadm
-    # - nodejs
-
-- hosts: localhost
+- hosts: work
   become: yes
   vars:
     - redis_cluster: true

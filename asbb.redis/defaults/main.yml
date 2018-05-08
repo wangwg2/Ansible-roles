@@ -1,18 +1,21 @@
 # file: defaults/main.yml
 ---
-archive_path: "/opt/software"
-app_base_path: "/opt"
-dlserver: "http://192.168.99.23:8080"
-redis_url: "http://download.redis.io/releases"
 redis_version: "4.0.9"  
+
+app_base_path: /opt
+
+dlserver: "http://192.168.99.23:8080"
+archive_path: "/opt/software"
+archive_file: "redis-{{ redis_version }}.tar.gz"
+archive_url: "http://download.redis.io/releases"
+using_url: no
 
 redis_as_service: yes
 redis_daemonize: yes
 
-redis_file: "redis-{{ redis_version }}.tar.gz"
-
+# redis_file: "redis-{{ redis_version }}.tar.gz"
 # redis_file_url: "{{ redis_url }}/{{ redis_file }}"  
-redis_file_url: "{{ dlserver }}/{{ redis_file }}"
+# redis_file_url: "{{ archive_url }}/{{ redis_file }}"
 
 redis_data_path: "/opt/data/redis"
 # redis_port: 6379

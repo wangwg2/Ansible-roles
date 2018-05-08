@@ -1,53 +1,64 @@
 # file: tasks/install.yml
 ---
-- name: install | Check if redis local file is already configured.
-  stat: path={{ redis_file_path }}
-  connection: local
-  register: redis_file_result
+# - name: install | Check if redis local file is already configured.
+#   stat: path={{ redis_file_path }}
+#   connection: local
+#   register: redis_file_result
 
-- name: install | Create software directory.
-  file: path={{ archive_path }} state=directory
-  connection: local
-  when: not redis_file_result.stat.exists
+# - name: install | Create software directory.
+#   file: path={{ archive_path }} state=directory
+#   connection: local
+#   when: not redis_file_result.stat.exists
   
-- name: install | Download redis file.
-  get_url: url={{ redis_file_url }} dest={{ archive_path }}
-  connection: local
-  when: not redis_file_result.stat.exists
-
-- name: install | Confirm the existence of the installation directory.
-  file: path={{ app_base_path }} state=directory
-
-- name: install | Ensure gcc packages are installed.
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - gcc
-    - gcc-c++
-    - libtool
-    - make
-  when: ansible_distribution in ["RedHat", "CentOS" ]
-
-- name: install | Ensure gcc packages are installed.
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - gcc
-    - libtool
-    - make
-  when: ansible_distribution in [ "Debian", "Ubuntu" ]
+# - name: install | Download redis file.
+#   get_url: url={{ redis_file_url }} dest={{ archive_path }}
+#   connection: local
+#   when: not redis_file_result.stat.exists
 
 - name: install | Copy redis file to agent.
   unarchive:
-    src: "{{ redis_file_path }}"
+    src: "{{ archive_path }}/{{ archive_file }}"
+    # dest: "/usr/local/src"
+    # creates: /usr/local/src/redis-{{ redis_version }}/Makefile
     dest: "/tmp/"
-    creates: "/tmp/redis-{{ redis_version }}"
-  
+    creates: "/tmp/redis-{{ redis_version }}/Makefile"
+
+- name: install | Confirm the existence of the installation directory.
+  file: path="{{ app_base_path }}/redis-{{ redis_version }}" state=directory
+
+# - name: install | Ensure gcc packages are installed.
+#   yum:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#     - gcc
+#     - gcc-c++
+#     - libtool
+#     - make
+#   when: ansible_distribution in ["RedHat", "CentOS" ]
+
+# - name: install | Ensure gcc packages are installed.
+#   apt:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#     - gcc
+#     - libtool
+#     - make
+#   when: ansible_distribution in [ "Debian", "Ubuntu" ]
+
+- name: install | Compile redis.
+  shell: "make"
+  args:
+    chdir: "/tmp/redis-{{ redis_version }}"
+    creates: "{{ app_base_path }}/redis-{{ redis_version }}"
+
 - name: install | Build redis.
-  shell: "make && make PREFIX={{ app_base_path }}/redis-{{ redis_version }} install chdir=/tmp/redis-{{ redis_version }} creates={{ app_base_path }}/redis-{{ redis_version }}"
- 
+  shell: "make PREFIX={{ app_base_path }}/redis-{{ redis_version }} install"
+  args:
+    chdir: "/tmp/redis-{{ redis_version }}"
+    creates: "{{ app_base_path }}/redis-{{ redis_version }}"
+
 - name: install | Check if redis remote soft link is already configured.
   stat: path="{{ app_base_path }}/redis"
   register: redis_soft_link_result

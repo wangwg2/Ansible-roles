@@ -1,5 +1,7 @@
 # file: tasks/main.yml
 ---
+- import_tasks: download.yml
+- import_tasks: dependencies.yml
 - import_tasks: install.yml
 - import_tasks: configure.yml 
 - import_tasks: sentinel.yml

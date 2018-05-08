@@ -9,6 +9,7 @@ ansible.log
 
 /test.yml
 /t.yml
+/t？.yml
 
 # ignore .vagrant
 .vagrant
