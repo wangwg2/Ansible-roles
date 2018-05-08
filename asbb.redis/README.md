@@ -15,6 +15,12 @@ redis（Remote Dictionary Server）是一个key-value存储系统。和Memcached
 * os `Centos 7.2 X64`
 * python `2.7.5`
 
+```
+/etc/systemd/system
+
+```
+
+
 ###### 角色变量
 ```yaml
 software_files_path: "/opt/software"
