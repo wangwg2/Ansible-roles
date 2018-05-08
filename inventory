@@ -36,6 +36,3 @@ localhost zookeeper_id=1
 ## kafka (localhost)
 [kafkanodes]
 localhost kafka_broker_id1=11 kafka_port1=9092 kafka_broker_id2=12 kafka_port2=9093 kafka_broker_id3=13 kafka_port3=9094
-
-[all:vars]
-ansible_user=vagrant

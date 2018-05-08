@@ -1,10 +1,10 @@
 # file: test.yml
 ---
-## 单实例安装
-# - hosts: work
-#   become: yes
-#   roles:
-#     - { role: asbb.redis, redis_port: 6481}
+# 单实例安装
+- hosts: work
+  become: yes
+  roles:
+    - { role: asbb.redis, redis_port: 6481}
 
 # 主从配置
 # - hosts: work
@@ -29,7 +29,7 @@
 #     - { role: redis, redis_port: 6385, redis_sentinel_port: 26385, redis_slave: true}
 
 ## 伪集群模式
-- hosts: ubuntu
+- hosts: work
   become: yes
   vars:
     - redis_cluster: true
