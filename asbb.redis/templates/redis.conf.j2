@@ -1,49 +1,71 @@
+## GENERAL
 daemonize yes
 pidfile {{ redis_pidfile }}
 bind 0.0.0.0
 port {{ redis_port | default('6379')}}
-tcp-backlog 511
+{# unixsocket {{ redis_socket_path }} #}
+{# unixsocketperm {{ redis_socket_perm }} #}
 timeout {{ redis_timeout }}
 tcp-keepalive 0
+tcp-backlog 511
 loglevel {{ redis_loglevel }}
 logfile "{{ redis_logfile }}"
+{# syslog-enabled no #}
+{# syslog-ident redis #}
+{# syslog-facility local0 #}
 databases {{ redis_databases }}
+
+## SNAPSHOTTING
+{# save 900 1 #}
+{# save 300 10 #}
+{# save 60 10000 #}
 stop-writes-on-bgsave-error yes
 rdbcompression {{ redis_rdbcompression }}
 rdbchecksum yes
 dbfilename {{ redis_dbfilename }}
 dir {{ redis_dbdir }}
-slave-serve-stale-data yes
-slave-read-only yes
-repl-diskless-sync no
-repl-diskless-sync-delay 5
-repl-disable-tcp-nodelay no
-slave-priority 100
-{% if redis_requirepass %}
-requirepass {{ redis_requirepass }}
+
+## REPLICATION
+{% if redis_slave %}
+slaveof {{ redis_master_host }} {{ redis_master_port }}
 {% endif %}
 {% if redis_cluster and redis_requirepass %}
 masterauth {{ redis_requirepass }}
 {% endif %}
+slave-serve-stale-data yes
+slave-read-only yes
+repl-diskless-sync no
+repl-diskless-sync-delay 5
+{# repl-ping-slave-period 10 #}
+{# repl-timeout 60 #}
+repl-disable-tcp-nodelay no
+{# repl-backlog-size 1mb #}
+{# repl-backlog-ttl 3600 #}
+slave-priority 100
+{# min-slaves-to-write 3  #}
+{# min-slaves-max-lag 10 #}
 
-{% if redis_slave %}
-slaveof {{ redis_master_host }} {{ redis_master_port }}
-{% endif %}
-
+## CLUSTER
 {% if redis_cluster %}
 cluster-enabled yes
 cluster-config-file {{ redis_dir_path }}/nodes.conf
 cluster-node-timeout 10000
+{# cluster-slave-validity-factor 10 #}
 cluster-migration-barrier 1
 cluster-require-full-coverage no
 {% endif %}
 
-{% if redis_masterauth %}
-masterauth {{ redis_masterauth }}
+## SECURITY
+{% if redis_requirepass %}
+requirepass {{ redis_requirepass }}
 {% endif %}
 
+## LIMITS
+{# maxclients 10000 #}
 maxmemory {{ redis_maxmemory }}
-maxmemory-policy allkeys-lru 
+maxmemory-policy allkeys-lru
+
+## APPEND ONLY MODE
 appendonly yes
 appendfilename "appendonly.aof"
 appendfsync everysec
@@ -51,11 +73,21 @@ no-appendfsync-on-rewrite no
 auto-aof-rewrite-percentage 100
 auto-aof-rewrite-min-size 64mb
 aof-load-truncated yes
+
+## LUA SCRIPTING
 lua-time-limit 5000
+
+## EVENT NOTIFICATION
+notify-keyspace-events ""
+
+## SHOW LOG
 slowlog-log-slower-than 10000
 slowlog-max-len 128
+
+## LATENCY MONITOR
 latency-monitor-threshold 0
-notify-keyspace-events ""
+
+## Advanced
 hash-max-ziplist-entries 512
 hash-max-ziplist-value 64
 list-max-ziplist-entries 512
