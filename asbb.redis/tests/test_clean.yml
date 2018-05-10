@@ -3,7 +3,7 @@
 - hosts: work
   vars:
     redis_installs:
-      # - { name: 'redis', port: 6379 }
+      - { name: 'redis', port: 6379 }
       - { name: 'redis', port: 6481 }
       - { name: 'redis', port: 6482 }
       - { name: 'redis', port: 6483 }

@@ -33,3 +33,4 @@
 - name: cluster | Create cluster.
   shell: "{{ app_base_path }}/redis/bin/redis-trib.rb create --replicas {{ redis_cluster_replicas }}"
   when: redis_cluster_replicas !=''
+  

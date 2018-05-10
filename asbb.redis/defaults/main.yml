@@ -13,15 +13,11 @@ using_url: no
 redis_as_service: yes
 redis_daemonize: yes
 
-# redis_file: "redis-{{ redis_version }}.tar.gz"
-# redis_file_url: "{{ redis_url }}/{{ redis_file }}"  
-# redis_file_url: "{{ archive_url }}/{{ redis_file }}"
-
 redis_data_path: "/opt/data/redis"
-# redis_port: 6379
-redis_daemon: "redis{{ redis_port | default('') }}"
-redis_service: "redis_{{ redis_port | default('') }}"
-redis_dir_path: "{{ redis_data_path }}/{{redis_port | default('6379')}}"
+redis_port: 6379
+redis_daemon: "redis{{ redis_port}}"
+redis_service: "redis_{{ redis_port}}"
+redis_dir_path: "{{ redis_data_path }}/{{redis_port}}"
 
 redis_timeout: 0
 redis_user: redis

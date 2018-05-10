@@ -1,6 +1,6 @@
 # file: tasks/dependencies.yml
 ---
-- name: install debian dependencies
+- name: dependency | install debian dependencies
   apt:
     pkg: "{{ item }}"
     update_cache: yes
@@ -13,7 +13,7 @@
     # - libc6-dev
   when: ansible_os_family == "Debian"
 
-- name: install redhat dependencies
+- name: dependency | install redhat dependencies
   yum:
     name: "{{ item }}"
     state: present
@@ -24,7 +24,7 @@
     - make    
   when: ansible_os_family == "RedHat"
 
-- name: install suse dependencies
+- name: dependency | install suse dependencies
   zypper:
     name: "{{ item }}"
     state: present

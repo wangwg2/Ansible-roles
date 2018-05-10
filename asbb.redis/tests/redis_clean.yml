@@ -14,24 +14,11 @@
     state: absent
   with_items: "{{redis_installs}}"
 
-- name: clean /etc/redis/*
+- name: clean /opt/data/redis/{{redis_port}}
   file:
-    path: "/etc/redis/{{item.port}}.conf"
-    state: absent
-  with_items: "{{redis_installs}}"
-
-- name: clean /etc/redis/*
-  file:
-    path: "/etc/redis/{{item.name}}_{{item.port}}.conf"
-    state: absent
-  when: item.name == "sentinel"
-  with_items: "{{redis_installs}}"
-
-- name: "clean /etc/default/redis_* sentinel_*"
-  file:
-    path: "/etc/default/{{item.name}}_{{item.port}}"
+    path: "/opt/data/redis/{{item.port}}"
     state: absent
   with_items: "{{redis_installs}}"
 
 - name: reload systemd daemon
-  command: systemctl daemon-reload  
+  command: systemctl daemon-reload
